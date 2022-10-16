@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const passport = require('passport');
 const Strategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('./models/User');
@@ -67,7 +68,7 @@ function setupGoogle({ server, ROOT_URL }) {
       failureRedirect: '/login',
     }),
     (req, res) => {
-      res.redirect('/');
+      res.redirect('/admin');
     },
   );
 

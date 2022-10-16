@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 import Head from 'next/head';
 import Button from '@mui/material/Button';
 
-import withAuth from '../lib/withAuth';
-import { styleLoginButton } from '../components/SharedStyles';
+import withAuth from '../../lib/withAuth';
+import { styleLoginButton } from '../../components/SharedStyles';
 
 const Login = () => (
   <div style={{ textAlign: 'center', margin: '0 20px' }}>
