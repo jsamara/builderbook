@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
 const session = require('express-session');
 const mongoSessionStore = require('connect-mongo');
