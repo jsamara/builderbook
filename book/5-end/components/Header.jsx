@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Toolbar from '@mui/material/Toolbar';
