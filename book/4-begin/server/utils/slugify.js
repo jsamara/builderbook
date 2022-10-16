@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const _ = require('lodash');
 
 const slugify = (text) => _.kebabCase(text);

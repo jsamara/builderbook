@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,6 +9,7 @@ import React from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
 import NProgress from 'nprogress';
+import Notifier from '../components/Notifier';
 
 import { theme } from '../lib/theme';
 
@@ -47,6 +49,7 @@ class MyApp extends App {
           <CssBaseline />
           <Header {...pageProps} />
           <Component {...pageProps} />
+          <Notifier />
         </ThemeProvider>
       </CacheProvider>
     );

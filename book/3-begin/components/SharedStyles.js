@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const styleBigAvatar = {
   width: '80px',
   height: '80px',

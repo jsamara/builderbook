@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
 const session = require('express-session');
 const mongoSessionStore = require('connect-mongo');
@@ -5,7 +6,7 @@ const next = require('next');
 const mongoose = require('mongoose');
 
 const setupGoogle = require('./google');
-const User = require('./models/User');
+// const User = require('./models/User');
 
 require('dotenv').config();
 
