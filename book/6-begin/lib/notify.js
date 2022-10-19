@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { openSnackbarExported } from '../components/Notifier';
 
 export default function notify(obj) {

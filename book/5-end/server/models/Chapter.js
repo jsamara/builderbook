@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-use-before-define */
 
 const mongoose = require('mongoose');

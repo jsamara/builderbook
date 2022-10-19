@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const publicApi = require('./public');
 const customerApi = require('./customer');
 const adminApi = require('./admin');

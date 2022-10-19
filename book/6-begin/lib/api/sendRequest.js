@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import 'isomorphic-unfetch';
 
 const port = process.env.PORT || 8000;
