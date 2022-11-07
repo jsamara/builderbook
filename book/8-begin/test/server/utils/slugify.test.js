@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const generateSlug = require('../../../server/utils/slugify');
 
 const MockUser = {
