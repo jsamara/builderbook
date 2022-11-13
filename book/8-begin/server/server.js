@@ -1,15 +1,19 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
 const session = require('express-session');
 const mongoSessionStore = require('connect-mongo');
 const next = require('next');
 const mongoose = require('mongoose');
+const compression = require('compression');
+const helmet = require('helmet');
 
 const setupGoogle = require('./google');
 const { setupGithub } = require('./github');
 const api = require('./api');
 
-const { insertTemplates } = require('./models/EmailTemplate');
+// const { insertTemplates } = require('./models/EmailTemplate');
 const routesWithSlug = require('./routesWithSlug');
+const { stripeCheckoutCallback } = require('./stripe');
 
 require('dotenv').config();
 
@@ -38,6 +42,9 @@ const handle = app.getRequestHandler();
 app.prepare().then(async () => {
   const server = express();
 
+  server.use(helmet({ contentSecurityPolicy: false }));
+  server.use(compression());
+
   server.use(express.json());
 
   const MongoStore = mongoSessionStore(session);
@@ -59,12 +66,14 @@ app.prepare().then(async () => {
 
   server.use(session(sess));
 
-  await insertTemplates();
+  // await insertTemplates();
 
   setupGoogle({ server, ROOT_URL });
   setupGithub({ server, ROOT_URL });
   api(server);
   routesWithSlug({ server, app });
+
+  stripeCheckoutCallback({ server });
 
   server.get('*', (req, res) => {
     const url = URL_MAP[req.path];
