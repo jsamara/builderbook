@@ -14,9 +14,21 @@ import { theme } from '../lib/theme';
 import Notifier from '../components/Notifier';
 import Header from '../components/Header';
 
-Router.onRouteChangeStart = () => NProgress.start();
-Router.onRouteChangeComplete = () => NProgress.done();
-Router.onRouteChangeError = () => NProgress.done();
+Router.events.on('routeChangeStart', () => {
+  NProgress.start();
+});
+
+Router.events.on('routeChangeComplete', (url) => {
+  if (window && process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
+    window.gtag('config', process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
+      page_path: url,
+    });
+  }
+
+  NProgress.done();
+});
+
+Router.events.on('routeChangeError', () => NProgress.done());
 
 const propTypes = {
   Component: PropTypes.elementType.isRequired,
@@ -29,6 +41,8 @@ class MyApp extends App {
 
     // console.log(pageProps);
 
+    const isServer = typeof window === 'undefined';
+
     return (
       <CacheProvider
         value={createCache({
@@ -40,6 +54,7 @@ class MyApp extends App {
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <Head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <link rel="stylesheet" href={isServer ? '/fonts/server.css' : '/fonts/cdn.css'} />
             <link
               rel="stylesheet"
               href="https://storage.googleapis.com/async-await/nprogress-light-spinner.css"

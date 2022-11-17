@@ -12,6 +12,7 @@ const api = require('./api');
 
 // const { insertTemplates } = require('./models/EmailTemplate');
 const routesWithSlug = require('./routesWithSlug');
+const setupSitemapAndRobots = require('./sitemapAndRobots');
 const { stripeCheckoutCallback } = require('./stripe');
 
 require('dotenv').config();
@@ -20,7 +21,13 @@ const dev = process.env.NODE_ENV !== 'production';
 const MONGO_URL = process.env.MONGO_URL_TEST;
 
 const port = process.env.PORT || 8000;
-const ROOT_URL = `http://localhost:${port}`;
+const getRootUrl = require('../lib/api/getRootUrl');
+const ROOT_URL = getRootUrl();
+const logger = require('./logger');
+
+logger.info(process.env.NODE_ENV);
+logger.info(dev);
+logger.info(ROOT_URL);
 
 const options = {
   useNewUrlParser: true,
@@ -46,6 +53,10 @@ app.prepare().then(async () => {
 
   server.use(express.json());
 
+  server.get('/_next/*', (req, res) => {
+    handle(req, res);
+  });
+
   const MongoStore = mongoSessionStore(session);
   const sess = {
     name: process.env.SESSION_NAME,
@@ -59,9 +70,14 @@ app.prepare().then(async () => {
     cookie: {
       httpOnly: true,
       maxAge: 14 * 24 * 60 * 60 * 1000, // expires in 14 days
-      domain: 'localhost',
+      domain: dev ? 'localhost' : process.env.COOKIE_DOMAIN,
     },
   };
+
+   if (!dev) {
+    server.set('trust proxy', 1); // sets req.hostname, req.ip
+    sess.cookie.secure = true; // sets cookie over HTTPS only
+  }
 
   server.use(session(sess));
 
@@ -85,6 +101,6 @@ app.prepare().then(async () => {
 
   server.listen(port, (err) => {
     if (err) throw err;
-    console.log(`> Ready on ${ROOT_URL}`);
+    logger.info(`> Ready on ${ROOT_URL}`);
   });
 });

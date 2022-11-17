@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon server/server.js --watch server",
-    "build": "next build",
+    "dev": "NODE_ENV=production nodemon server/server.js --watch server",
+    "build": "NODE_ENV=production next build",
     "start": "next start",
     "lint": "eslint '**/*.js' '**/*.jsx'",
     "test": "jest --coverage"
